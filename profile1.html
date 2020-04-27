@@ -6,7 +6,7 @@
     <link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='home.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='button.css') }}" rel="stylesheet">
-    
+
 
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='jscode.js') }}"></script>
@@ -204,4 +204,140 @@
     </style>
     </head>
     <body>
-</html>
+          <!--start-->
+
+            <div class="box">
+              <ul class="menu">
+                <li><a href="#"></a></li>
+                <li><a href="{{url_for('home')}}">Home</a>
+                    <ul>
+                    <!--<li><a href="#">Lorem ipsum dolor</a></li>
+                    <li><a href="#">Maecenas lacinia sem</a></li>
+                    <li><a href="#">Suspendisse fringilla</a></li>-->
+                    </ul>
+                </li>
+
+
+                <li><a href="#">Agent</a>
+                    <ul>
+                    <li><a name="Directors" href="{{url_for('directors')}}">Directors</a></li>
+                    <li><a name="Writers" href="{{url_for('writers')}}">Writers</a></li>
+                    <li><a name="Actors" href="{{url_for('actors')}}">Actors</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#">Stores</a>
+                    <ul>
+                    <li><a name="Stores" href="{{url_for('stores')}}">Stores</a></li>
+                    <li><a name="أNewRequest" href="{{url_for('request')}}">New Request</a></li>
+
+                    {% if session['roll']==2 %}
+                    <li><a name="RequestList" href="{{url_for('requestlist')}}">Request List</a></li>
+                    {% endif %}
+                    </ul>
+                </li>
+
+
+
+
+
+                <li><a href="#">Film</a>
+                    <ul>
+                    <li><a href="{{url_for('company')}}">Company</a></li>
+                    <li><a href="{{url_for('category')}}">Category</a></li>
+                    <li><a href="{{url_for('award')}}">Award</a></li>
+                    <li><a href="{{url_for('film')}}">Film</a></li>
+
+                    {% if session['roll']==2 or session['roll']==1  %}
+                    <li><a href="{{url_for('newfilm')}}">New Film</a></li>
+                     {% endif %}
+
+                    </ul>
+                </li>
+
+
+
+                <li><a href="#">Settings</a>
+                    <ul>
+                    <li><a href="{{url_for('profile')}}">Profile</a></li>
+                    <li><a href="{{url_for('editpassword')}}">Edit Password</a></li>
+                    <li><a name="logout" href="{{url_for('main')}}">Logout</a></li>
+                    </ul>
+                </li>
+
+
+              </ul>
+            </div>
+
+
+
+          <!--end-->
+          <!--start-->
+          <br><br><br><br>
+          <br><br><br>
+          <div class="container">
+              <div class="row">
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+
+
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Sheena Shrestha</h3>
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                          {% for post in posts %}
+                        <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src={{post.image}} class="img-circle img-responsive" > </div>
+                        {%endfor%}
+
+                        <div class=" col-md-9 col-lg-9 ">
+                          <table class="table table-user-information">
+                            <tbody>
+                            <br><br>
+                            {% for post in posts %}
+                              <tr>
+                                <td>Username:</td>
+                                <td>{{post.username}}</td>
+                              </tr>
+                              <tr>
+                                <td>Email:</td>
+                                <td>{{post.email}}</td>
+                              </tr>
+                              <tr>
+                                <td>Roll</td>
+                                <td>{{post.roll}}</td>
+                              </tr>
+                            {%endfor%}
+
+
+                            </tbody>
+                          </table>
+                          <form  name="profile" method="post" action="{{url_for('profile')}}" enctype="multipart/form-data">
+                          <div class="form-group">
+
+                             <input type="file" name="file" multiple value="choose image" placeholder="choose image" >
+
+                           </div>
+
+
+                           <div class="form-group" >
+                               <input  name="save" type="submit" value="Save" class="btn btn-primary"/>
+                               <!-- <button  name="save" class="inputButton" type="submit" > Save </button>-->
+                           </div>
+
+
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+          <br><br><br><br><br><br>
+          <!---->
+
+
+	 </body>
+	 </html>
