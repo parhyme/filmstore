@@ -89,3 +89,77 @@ class Main(flask.views.MethodView):
 
                                 return flask.redirect(flask.url_for('main'))
 
+class Home(flask.views.MethodView):
+        def get(self):
+                username = flask.session['username']
+                SQLCommand = ("SELECT roll,userId FROM Users where userName='%s'")%(username)
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+
+                flask.session['roll'] = row[0][0]
+
+
+                SQLCommand = ("spDisplayHomePageBASedONFollow '%s',3")%(row[0][1])
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+
+                result = []
+
+                for i in range(len(row)):
+                    a=[]
+
+                    SQLCommand = ("SELECT name , family FROM Writers where writerId='%s'")%(row[i][1])
+                    cursor.execute(SQLCommand)
+                    wr = cursor.fetchall()
+                    connection.commit()
+
+
+
+                    SQLCommand = ("SELECT name , family FROM Directors where directorId='%s'")%(row[i][2])
+                    cursor.execute(SQLCommand)
+                    dr = cursor.fetchall()
+                    connection.commit()
+
+
+                    SQLCommand = ("SELECT companyName from Companies where companyId='%s'")%(row[i][3])
+                    cursor.execute(SQLCommand)
+                    co = cursor.fetchall()
+                    connection.commit()
+
+
+                    SQLCommand = ("SELECT categoryName from Categories where categoryId='%s'")%(row[i][4])
+                    cursor.execute(SQLCommand)
+                    ca = cursor.fetchall()
+                    connection.commit()
+
+
+                    a.append(wr[0][0])
+                    a.append(wr[0][1])
+                    a.append(dr[0][0])
+                    a.append(dr[0][1])
+                    a.append(co[0][0])
+                    a.append(ca[0][0])
+                    a.append(row[i][5])
+                    a.append(row[i][6])
+                    a.append(row[i][7])
+                    a.append(row[i][8])
+
+                    x = dict ([('wrName',a[0]),('wrFamily',a[1]),('drName',a[2]),('drFamily',a[3]),('company',a[4]),('category',a[5]),('Name',a[6]),('summary',a[7]),('date',a[8]),('image',a[9])])
+
+
+                    result.append(x)
+
+
+                if flask.session['username']:
+                        return flask.render_template('home.html',posts = result)
+
+                else:
+                        return flask.render_template('main.html')
+
+
+        def post(self):
+                if 'logout':
+                        flask.session.pop('username',None)
+                        return flask.redirect(flask.url_for('main'))
