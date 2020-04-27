@@ -6,7 +6,7 @@
     <link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='home.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='button.css') }}" rel="stylesheet">
-    
+
 
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='jscode.js') }}"></script>
@@ -159,6 +159,82 @@
 
 
     </style>
-</body>
+
     </head>
-</html>>
+    <body>
+
+          <!--start-->
+
+            <div class="box">
+              <ul class="menu">
+                   <li><a href="#"></a></li>
+                  <li><a href="{{url_for('home')}}">Home</a>
+                    <ul>
+                    <!--<li><a href="#">Lorem ipsum dolor</a></li>
+                    <li><a href="#">Maecenas lacinia sem</a></li>
+                    <li><a href="#">Suspendisse fringilla</a></li>-->
+                    </ul>
+                </li>
+
+
+                <li><a href="#">Agent</a>
+                    <ul>
+                    <li><a name="Directors" href="{{url_for('directors')}}">Directors</a></li>
+                    <li><a name="Writers" href="{{url_for('writers')}}">Writers</a></li>
+                    <li><a name="Actors" href="{{url_for('actors')}}">Actors</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#">Stores</a>
+                    <ul>
+                    <li><a name="Stores" href="{{url_for('stores')}}">Stores</a></li>
+                    <li><a name="أNewRequest" href="{{url_for('request')}}">New Request</a></li>
+
+                    {% if session['roll']==2 %}
+                    <li><a name="RequestList" href="{{url_for('requestlist')}}">Request List</a></li>
+                    {% endif %}
+                    </ul>
+                </li>
+
+
+
+
+
+                <li><a href="#">Film</a>
+                    <ul>
+                    <li><a href="{{url_for('company')}}">Company</a></li>
+                    <li><a href="{{url_for('category')}}">Category</a></li>
+                    <li><a href="{{url_for('award')}}">Award</a></li>
+                    <li><a href="{{url_for('film')}}">Film</a></li>
+
+                    {% if session['roll']==2 or session['roll']==1  %}
+                    <li><a href="{{url_for('newfilm')}}">New Film</a></li>
+                     {% endif %}
+
+                    </ul>
+                </li>
+
+
+
+                <li><a href="#">Settings</a>
+                    <ul>
+                    <li><a href="{{url_for('profile')}}">Profile</a></li>
+                    <li><a href="{{url_for('editpassword')}}">Edit Password</a></li>
+                    <li><a name="logout" href="{{url_for('main')}}">Logout</a></li>
+                    </ul>
+                </li>
+
+
+              </ul>
+            </div>
+
+
+          <!--end-->
+
+
+
+          <!---->
+
+
+	 </body>
+	 </html>
