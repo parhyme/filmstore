@@ -11,7 +11,7 @@ users = {'prhm':'abp'}
 
 DEBUG = True
 
-app.config['UPLOAD_FOLDER'] = 'E:/university/terme_8/Az_database/proje/db/static/img'
+app.config['UPLOAD_FOLDER'] = 'C:/Users/Parham/Documents/Dev/Film_store/statics/img'
 app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 #SQLSERVER configurations
@@ -163,6 +163,49 @@ class Home(flask.views.MethodView):
                         flask.session.pop('username',None)
                         return flask.redirect(flask.url_for('main'))
 
+class Profile(flask.views.MethodView):
+        def get(self):
+                username = flask.session['username']
+                SQLCommand = ("SELECT email,roll,image FROM Users where userName='%s'")%(username)
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                users = []
+
+                for i in range(len(row)):
+                        if row[i][1]==0:
+                                roll = "User"
+                        elif row[i][1]==1:
+                                roll = "Admin of Stor"
+                        else:
+                                roll = "Admin"
+
+                        x = dict([('username',username),('email',row[i][0]),('role',roll),('image',row[i][2])])
+                        users.append(x)
+
+                return flask.render_template('profile.html',posts=users)
+
+
+        def post(self):
+                if 'save':
+                    f = flask.request.files['file']
+                    if (f.filename != ""):
+                            addres = "E:/university/terme_8/Az_database/proje/db/static/img/Users/" + str(f.filename)
+                            if f and allowed_file(f.filename):
+                                    filename = secure_filename(f.filename)
+
+                            f.save(os.path.join(app.config['UPLOAD_FOLDER']+"/Users", filename))
+                            f.close()
+
+                    username = flask.session['username']
+                    filename = secure_filename(f.filename)
+                    adr = "../static/img/Users/"+str(filename)
+                    SQLCommand = ("UPDATE Users SET image = '%s' where userName ='%s' ")%(adr,username)
+                    cursor.execute(SQLCommand)
+                    connection.commit()
+                    return flask.redirect(flask.url_for('profile'))
+
+
 app.add_url_rule('/',
     view_func = Main.as_view('main'),
     methods = ["GET","POST"])
@@ -170,3 +213,6 @@ app.add_url_rule('/',
 app.add_url_rule('/home/',
     view_func = Home.as_view('home'),
     methods = ["GET","POST"])
+
+app.debug = True
+app.run()
