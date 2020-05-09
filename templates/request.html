@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+      <link href="../static/bootstrap.css" rel="stylesheet">
+    <link href="../static/home.css" rel="stylesheet">
+    <link href="../static/button.css" rel="stylesheet">
+
+
+    <script type="text/javascript" src="../static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/js/jscode.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <style>
+         body {
+          background-color: #f2f2f2;
+        }
+        .box {
+          margin-top: 40px;
+          height: 85px;
+          border-bottom: 5px solid #fff;
+          background-color: #0dc2e3;
+          background-image: -webkit-linear-gradient(180deg, transparent 55%, #00bfe1 45%);
+          background-image: -o-linear-gradient(180deg, transparent 50%, #00bfe1 50%);
+          background-image: -ms-linear-gradient(180deg, transparent 50%, #00bfe1 50%);
+          background-image: linear-gradient(90deg, transparent 50%, #00bfe1 50%);
+          background-size: 30px 30px;
+        }
+        .menu {
+          width: 850px;
+          margin: 0 auto;
+          -webkit-perspective: 50px;
+          -moz-perspective: 50px;
+          -ms-perspective: 50px;
+          perspective: 50px;
+
+        }
+        .menu > li {
+          display: inline-block;
+          padding-top: 48px;
+          -webkit-transform-style: preserve-3d;
+          -moz-transform-style: preserve-3d;
+          -ms-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+        }
+        .menu > li > a {
+          position: relative;
+          display: block;
+          line-height: 36px;
+          color: #fff;
+          font-weight: bold;
+          font-size: 20px;
+          padding: 0 20px;
+        }
+        .menu > li:first-child > a:before {
+          position: absolute;
+          left: 0;
+          top: 36px;
+          content: '';
+          width: 1px;
+          height: 1px;
+          border-width: 15px 30px;
+          border-style: solid;
+          border-color: transparent;
+          border-top-color: #4bb100;
+        }
+        .menu > li:first-child > a:after {
+          font-family: 'iconminia';
+          font-style: normal;
+          speak: none;
+          font-weight: normal;
+          -webkit-font-smoothing: antialiased;
+          font-size: 22px;
+          content: "\21";
+        }
+        .menu > li:first-child a,
+          .menu > li:first-child:hover > a,
+          .menu > li:first-child:hover a:hover {
+          color: #fff;
+          top: 2px;
+          height: 36px;
+          margin-right: 10px;
+          text-shadow: 0 1px 0 #3c8f00;
+          border-radius: 5px 5px 0 0;
+          box-shadow: 0 1px 0 #a6d980 inset;
+          background-color: #4bb100;
+        }
+        .menu > li:hover > a {
+          color: #1a89c8;
+          text-decoration: none;
+          border-radius: 5px 5px 0 0;
+          background-color: #fff;
+        }
+        .menu ul {
+          position: absolute;
+          text-align: left;
+          line-height: 40px;
+          font-size: 14px;
+          width: 200px;
+          background-color: #fff;
+          -webkit-transition: all 0.3s ease-in;
+          -moz-transition: all 0.3s ease-in;
+          -ms-transition: all 0.3s ease-in;
+          transition: all 0.3s ease-in;
+          -webkit-transform-origin: 0px 0px;
+          -moz-transform-origin: 0px 0px;
+          transform-origin: 0px 0px;
+          -webkit-transform: rotateX(-90deg);
+          -moz-transform: rotateX(-90deg);
+          transform: rotateX(-90deg);
+          -moz-backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+        .menu ul a {
+          display: block;
+          padding: 0 15px 0 10px;
+          color: #1a89c8;
+        }
+        .menu > li:hover ul {
+          display: block;
+          -webkit-transform: rotateX(0deg);
+          -moz-transform: rotateX(0deg);
+          -ms-transform: rotateX(0deg);
+          transform: rotateX(0deg);
+        }
+        .menu ul a:hover {
+          color: #fff;
+          text-shadow: 0 1px 0 #1c71a1;
+          text-decoration: none;
+          background-color: #218bc7;
+        }
+        @font-face {
+          font-family: 'iconminia';
+          src:url('fonts/iconminia.eot');
+          src:url('fonts/iconminia.eot?#iefix') format('embedded-opentype'),
+           url('fonts/iconminia.svg#iconminia') format('svg'),
+           url('fonts/iconminia.woff') format('woff'),
+           url('fonts/iconminia.ttf') format('truetype');
+          font-weight: normal;
+          font-style: normal;
+        }
+
+        .container{
+            width: 800px;
+            margin-right: 300px;
+          margin-left: 50px;
+        }
+
+
+
+
+    </style>
+
+    </head>
+    <body>
+
+          <!--start-->
+
+            <div class="box">
+              <ul class="menu">
+                  <li><a href="#"></a></li>
+                  <li><a href="../templates/home.html">Home</a>
+                    <ul>
+                    <!--<li><a href="#">Lorem ipsum dolor</a></li>
+                    <li><a href="#">Maecenas lacinia sem</a></li>
+                    <li><a href="#">Suspendisse fringilla</a></li>-->
+                    </ul>
+                </li>
+
+
+                <li><a href="#">Agent</a>
+                    <ul>
+                    <li><a name="Directors" href="../templates/directors.html">Directors</a></li>
+                    <li><a name="Writers" href="../templates/writers.html">Writers</a></li>
+                    <li><a name="Actors" href="../templates/actors.html">Actors</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#">Stores</a>
+                    <ul>
+                    <li><a name="Stores" href="../templates/stores.html">Stores</a></li>
+                    <li><a name="أNewRequest" href="../templates/request.html">New Request</a></li>
+
+                    <?php {% if session['roll']==2 %} ?>
+                    <li><a name="RequestList" href="../templates/requestlist.html">Request List</a></li>
+                  <?php  {% endif %} ?>
+                    </ul>
+                </li>
+
+
+
+
+
+                <li><a href="#">Film</a>
+                    <ul>
+                    <li><a href="../templates/company.html">Company</a></li>
+                    <li><a href="../templates/category.html">Category</a></li>
+                    <li><a href="../templates/award.html">Award</a></li>
+                    <li><a href="../templates/film.html">Film</a></li>
+<?php
+                    {% if session['roll']==2 or session['roll']==1  %}
+                    ?>
+                    <li><a href="../templates/newfilm.html">New Film</a></li>
+                        <?php
+                     {% endif %}
+?>
+                    </ul>
+                </li>
+
+
+
+                <li><a href="#">Settings</a>
+                    <ul>
+                    <li><a href="../templates/profile.html">Profile</a></li>
+                    <li><a href="../templates/editpassword.html">Edit Password</a></li>
+                    <li><a name="logout" href="../templates/main.html">Logout</a></li>
+                    </ul>
+                </li>
+
+
+              </ul>
+            </div>
+
+
+
+          <!--end-->
+
+          <!--start-->
+           <br><br><br><br><br>
+
+          <div class="container">
+
+                <div id="signupbox" style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Sign Up</div>
+                        </div>
+                        <div class="panel-body" >
+                            <form method="post" action="{{url_for('request')}}" enctype="multipart/form-data">
+                                <input type='hidden' name='csrfmiddlewaretoken' value='XFe2rTYl9WOpV8U6X5CfbIuOZOELJ97S' />
+
+
+                                <form  class="form-horizontal" method="post" >
+                                    <input type='hidden' name='csrfmiddlewaretoken' value='XFe2rTYl9WOpV8U6X5CfbIuOZOELJ97S' />
+
+                                    <div id="div_id_name" class="form-group required">
+                                        <label for="id_name" class="control-label col-md-4  requiredField"> Name<span class="asteriskField">*</span> </label>
+                                        <div class="controls col-md-8 ">
+                                            <input class="input-md  textinput textInput form-control" id="id_name" maxlength="30" name="name" placeholder="Choose your Name" style="margin-bottom: 10px" type="text" required/>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_family" class="form-group required">
+                                        <label for="id_family" class="control-label col-md-4  requiredField">Family<span class="asteriskField">*</span> </label>
+                                        <div class="controls col-md-8 ">
+                                            <input class="input-md textinput textInput form-control" id="id_family" name="family" placeholder="Family" style="margin-bottom: 10px" type="text" required/>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_email" class="form-group required">
+                                        <label for="id_email" class="control-label col-md-4  requiredField"> E-mail<span class="asteriskField">*</span> </label>
+                                        <div class="controls col-md-8 ">
+                                            <input class="input-md emailinput form-control" id="id_email" name="email" placeholder="Your current email address" style="margin-bottom: 10px" type="email" required/>
+                                        </div>
+                                    </div>
+
+                                    <div id="div_id_phone" class="form-group required">
+                                         <label for="id_phone" class="control-label col-md-4  requiredField"> Phone<span class="asteriskField">*</span> </label>
+                                         <div class="controls col-md-8 ">
+                                            <input class="input-md textinput textInput form-control" id="id_phone" name="phone" placeholder="your phone" style="margin-bottom: 10px" type="text" required/>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_resume" class="form-group required">
+                                        <label for="id_resume" class="control-label col-md-4  requiredField"> Resume<span class="asteriskField">*</span> </label>
+                                        <div class="controls col-md-8 ">
+                                            <input class="input-md textinput textInput form-control" id="id_resume" name="resume" placeholder="resume" style="margin-bottom: 10px" type="text" required/>
+                                        </div>
+                                    </div>
+
+                                    <div id="div_id_education" class="form-group required">
+                                        <label for="id_education" class="control-label col-md-4  requiredField">Education<span class="asteriskField">*</span> </label>
+                                        <div class="controls col-md-8 ">
+                                             <input class="input-md textinput textInput form-control" id="id_education" name="education" placeholder="your education" style="margin-bottom: 10px" type="text" required/>
+                                        </div>
+                                    </div>
+
+                                    <div id="div_id_motivation" class="form-group required">
+                                         <label for="id_motivation" class="control-label col-md-4  requiredField"> Motivation<span class="asteriskField">*</span> </label>
+                                         <div class="controls col-md-8 ">
+                                             <input class="input-md textinput textInput form-control" id="id_motivation" name="motivation" placeholder="your motivation" style="margin-bottom: 10px" type="text" required/>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_storename" class="form-group required">
+                                        <label for="id_storename" class="control-label col-md-4  requiredField"> Store Name<span class="asteriskField">*</span> </label>
+                                        <div class="controls col-md-8 ">
+                                            <input class="input-md textinput textInput form-control" id="id_storename" name="storename" placeholder="storename" style="margin-bottom: 10px" type="text" required/>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_subject" class="form-group required">
+                                        <label for="id_subject" class="control-label col-md-4  requiredField"> Subject<span class="asteriskField">*</span> </label>
+                                        <div class="controls col-md-8 ">
+                                            <input class="input-md textinput textInput form-control" id="id_subject" name="subject" placeholder="subject" style="margin-bottom: 10px" type="text" required/>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_image" class="form-group required">
+                                        <label for="id_image" class="control-label col-md-4  requiredField"> Image<span class="asteriskField">*</span> </label>
+                                        <input type="file" name="file" multiple value="choose image" placeholder="choose image" >
+                                    </div>
+
+                                    <br>
+                                    <div class="form-group">
+                                        <div class="aab controls col-md-4 "></div>
+                                        <div class="controls col-md-8 ">
+                                            <input type="submit" name="send" value="send request" class="btn btn-primary btn btn-info" id="submit-id-signup" />
+
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+</div>
+
+          <!--end-->
+
+
+
+          <!---->
+
+
+	 </body>
+	 </html>
