@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa">
 
     <head>
-
+        <title> profile</title>
       <link href="../static/bootstrap.css" rel="stylesheet">
     <link href="../static/home.css" rel="stylesheet">
     <link href="../static/button.css" rel="stylesheet">
@@ -67,7 +67,7 @@
           border-top-color: #4bb100;
         }
         .menu > li:first-child > a:after {
-          font-family: 'iconminia';
+          font-family: 'iconminia',sans-serif;
           font-style: normal;
           speak: none;
           font-weight: normal;
@@ -104,9 +104,9 @@
           -moz-transition: all 0.3s ease-in;
           -ms-transition: all 0.3s ease-in;
           transition: all 0.3s ease-in;
-          -webkit-transform-origin: 0px 0px;
-          -moz-transform-origin: 0px 0px;
-          transform-origin: 0px 0px;
+          -webkit-transform-origin: 0 0;
+          -moz-transform-origin: 0 0;
+          transform-origin: 0 0;
           -webkit-transform: rotateX(-90deg);
           -moz-transform: rotateX(-90deg);
           transform: rotateX(-90deg);
@@ -190,6 +190,7 @@
 
 
     </style>
+        <title></title>
     </head>
     <body>
           <!--start-->
@@ -208,19 +209,19 @@
 
                 <li><a href="#">Agent</a>
                     <ul>
-                    <li><a name="Directors" href="../templates/directors.html">Directors</a></li>
-                    <li><a name="Writers" href="../templates/writers.html">Writers</a></li>
-                    <li><a name="Actors" href="../templates/actors.html">Actors</a></li>
+                    <li><a  href="../templates/directors.html">Directors</a></li>
+                    <li><a  href="../templates/writers.html">Writers</a></li>
+                    <li><a  href="../templates/actors.html">Actors </a></li>
                     </ul>
                 </li>
 
                 <li><a href="#">Stores</a>
                     <ul>
-                    <li><a name="Stores" href="../templates/stores.html">Stores</a></li>
-                    <li><a name="أNewRequest" href="../templates/request.html">New Request</a></li>
+                    <li><a  href="../templates/stores.html">Stores</a></li>
+                    <li><a  href="../templates/request.html">New Request</a></li>
 
                     <?php {% if session['roll']==2 %} ?>
-                    <li><a name="RequestList" href="../templates/requestlist.html">Request List</a></li>
+                    <li><a  href="../templates/requestlist.html">Request List</a></li>
                   <?php  {% endif %} ?>
                     </ul>
                 </li>
@@ -251,7 +252,7 @@
                     <ul>
                     <li><a href="../templates/profile.html">Profile</a></li>
                     <li><a href="../templates/editpassword.html">Edit Password</a></li>
-                    <li><a name="logout" href="../templates/main.html">Logout</a></li>
+                    <li><a href="../templates/main.html">Logout</a></li>
                     </ul>
                 </li>
 
@@ -280,27 +281,29 @@
                           <?php
                           {% for post in posts %}
                           ?>
-                        <div class="col-md-3 col-lg-3 " align="center">
-                            <img alt="User Pic" src= "<?php{{post.image}}?>"  class="img-circle img-responsive" /> </div>
+                        <!--<div class="col-md-3 col-lg-3 " align="center">
+                            <img alt="User Pic" src= "<?php{{post.image}}?>"  class="img-circle img-responsive" /> </div>-->
+
                        <?php
                         {%endfor%}
                         ?>
 
-                        <div class=" col-md-9 col-lg-9 ">
-                          <table class="table table-user-information"  >
+                        <div class=" col-md-9 col-lg-9 " style="margin-left: 150px;" >
+                          <table class="table table-user-information" >
 
                               <th>
                                   <label for="username" >username:</label>
                                   <input type="text" class="form-control" id="username" placeholder="username" ></th>
                                 <th>
-                                    <label for="email" >Emai:</label>
+                                    <label for="email" >Email:</label>
                                     <input type="text" class="form-control"id="email" placeholder="email" ></th>
                                 <th>
                                     <label for="roll" >roll:</label>
                                     <input type="text" class="form-control" id="roll" placeholder="roll" ></th>
 
-                            <tbody>
-                            <br><br>
+                            <tbody >
+
+                            <br/><br/>
                             <?php
                             {% for post in posts %}
                             ?>
@@ -328,7 +331,7 @@
                              <br/><br/>
                               <br/><br/>
                               <br/><br/>
-                           <div class="form-group" >
+                           <div class="form-group" style="margin-left: 70px;" >
                                <input  name="save" type="submit" value="Save" class="btn btn-primary"/>
                                <!-- <button  name="save" class="inputButton" type="submit" > Save </button>-->
                            </div>
