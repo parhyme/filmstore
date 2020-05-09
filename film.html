@@ -1,4 +1,8 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
+
 <html>
 
     <head>
@@ -637,11 +641,14 @@
                     <li><a href="{{url_for('category')}}">Category</a></li>
                     <li><a href="{{url_for('award')}}">Award</a></li>
                     <li><a href="{{url_for('film')}}">Film</a></li>
-
+<?php
                     {% if session['roll']==2 or session['roll']==1  %}
-                    <li><a href="{{url_for('newfilm')}}">New Film</a></li>
-                     {% endif %}
 
+                   ?>
+                    <li><a href="{{url_for('newfilm')}}">New Film</a></li>
+                        <?php
+                     {% endif %}
+?>
                     </ul>
                 </li>
 
@@ -688,17 +695,22 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <?php
                         {% for post in posts %}
+  ?>
+
                             <tr>
+
                                 <td><img src={{post.image}} alt="" width="80px" height="80px" /></td>
-                                <td>{{post.Name}}</td>
-                                <td>{{post.Summary}}</td>
-                                <td>{{post.ProductYear}}</td>
+                                <td><?php {{post.Name}} ?></td>
+                                <td><?php {{post.Summary}} ?></td>
+                                <td><?php {{post.ProductYear}} ?></td>
 
 
                             </tr>
+                        <?php
                          {%endfor%}
-
+                          ?>
                         </tbody>
                     </table>
                 </div>
@@ -708,14 +720,15 @@
 
 
           <!--end-->
+<?php
 
           {% if session['roll']==2 or session['roll']==1  %}
-
+?>
                 <div class="col-md-4 column">
 				</div>
 				<div class="col-md-4 column">
-                     <a  class="inputButton" href="#login-modal" role="button" data-toggle="modal" data-target="#login-modal" data-backdrop="static" data-controls-modal="login-modal"  > <center>Delete Film</center>  </a>
-
+                  <!--   <a  class="inputButton" href="#login-modal" role="button" data-toggle="modal" data-target="#login-modal" data-backdrop="static" data-controls-modal="login-modal"  > <center>Delete Film</center>  </a>
+-->
                     </div>
 				</div>
 				<div class="col-md-4 column">
@@ -729,14 +742,14 @@
                  <div class="modal-dialog login-form animated">
                      <div class="modal-content">
                           <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">×</button>
+                               <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
                          </div>
                          <div class="modal-body">
                               <form  name="loginform" method="post" action="{{url_for('film')}}" enctype="multipart/form-data">
                                   <div id="my-tab-content" class="tab-content">
                                         <div class="tab-pane active" id="login" name="login">
 
-                                            <h4><center>Delete Film</center></h4>
+                                          <!--  <h4 style="text-align: center;">Delete Film</h4> -->
 
                                             <div class="col-xs-12 col-sm-12">
                                                         <h5>Films</h5>
@@ -745,9 +758,9 @@
                                                             <span class="btn-select-value">Select an Item</span>
                                                             <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
                                                             <ul>
-                                                                {% for fi in posts %}
-                                                                <li>{{fi.Name}}</li>
-                                                                {%endfor%}
+                                                           <?php     {% for fi in posts %} ?>
+                                                                <li>  <?php  {{fi.Name}} ?> </li>
+                                                                <?php  {%endfor%} ?>
 
                                                             </ul>
                                                         </a>
@@ -755,7 +768,9 @@
 
                                             <div class="form-group" >
                                                 <input  name="delete" type="submit" value="delete" class="inputButton"/>
-                                                   <!-- <button  name="save" class="inputButton" type="submit" > Save </button>-->
+                                                    <button  name="save" class="inputButton" type="submit" > Save </button>
+
+                                               <!--  -->
                                             </div>
 
                                         </div>
@@ -767,9 +782,9 @@
                      </div>
                 </div>
 	 </div>
-
+<?php
           {% endif %}
-
+?>
 
 
           <!---->
