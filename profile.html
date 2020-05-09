@@ -3,26 +3,14 @@
 
     <head>
 
-    <link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='home.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='button.css') }}" rel="stylesheet">
+      <link href="../static/bootstrap.css" rel="stylesheet">
+    <link href="../static/home.css" rel="stylesheet">
+    <link href="../static/button.css" rel="stylesheet">
 
 
-    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='jscode.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-
-    <link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='home.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='button.css') }}" rel="stylesheet">
-
-
-    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='jscode.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-
+    <script type="text/javascript" src="../static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/js/jscode.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
         <style>
@@ -299,14 +287,14 @@
                         ?>
 
                         <div class=" col-md-9 col-lg-9 ">
-                          <table class="table table-user-information"  style="margin-left:200px;">
+                          <table class="table table-user-information"  >
 
                               <th>
                                   <label for="username" >username:</label>
                                   <input type="text" class="form-control" id="username" placeholder="username" ></th>
                                 <th>
-                                    <label for="email" >Email:</label>
-                                    <input type="email" class="form-control"id="email" placeholder="email" ></th>
+                                    <label for="email" >Emai:</label>
+                                    <input type="text" class="form-control"id="email" placeholder="email" ></th>
                                 <th>
                                     <label for="roll" >roll:</label>
                                     <input type="text" class="form-control" id="roll" placeholder="roll" ></th>
@@ -340,7 +328,7 @@
                              <br/><br/>
                               <br/><br/>
                               <br/><br/>
-                           <div class="form-group" style="margin-right: 90px;">
+                           <div class="form-group" >
                                <input  name="save" type="submit" value="Save" class="btn btn-primary"/>
                                <!-- <button  name="save" class="inputButton" type="submit" > Save </button>-->
                            </div>
