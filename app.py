@@ -163,6 +163,140 @@ class Home(flask.views.MethodView):
                         flask.session.pop('username',None)
                         return flask.redirect(flask.url_for('main'))
 
+class Actors(flask.views.MethodView):
+        def get(self):
+                SQLCommand = ("SELECT name,family,nationality,image FROM Actors")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                act = []
+                for i in range(len(row)):
+                        x = dict([('Name',row[i][0]),('Family',row[i][1]),('Nation',row[i][2]),('Image',row[i][3])])
+                        act.append(x)
+
+                return flask.render_template('actors.html',posts=act)
+
+
+        def post(self):
+                if 'save' in flask.request.form :
+                        name = flask.request.form['Name']
+                        family = flask.request.form['Family']
+                        nation = flask.request.form['Nation']
+                        f = flask.request.files['file']
+
+                        if (f.filename != ""):
+                                addres = "E:/university/terme_8/Az_database/proje/db/static/img/Actors/" + str(f.filename)
+                                if f and allowed_file(f.filename):
+				    filename = secure_filename(f.filename)
+
+                                f.save(os.path.join(app.config['UPLOAD_FOLDER']+"/Actors", filename))
+                                f.close()
+
+                        filename = secure_filename(f.filename)
+                        adr = "../static/img/Actors/"+str(filename)
+
+                        print name
+                        print family
+                        print nation
+
+                        #if(valifation(name)==0 and valifation(family)==0 and valifation(nation)==0):
+                        SQLCommand = ("INSERT INTO Actors (name,family,nationality,image) VALUES ('%s','%s','%s','%s')") %(name,family,nation,str(adr))
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+
+
+                        return flask.redirect(flask.url_for('actors'))
+
+
+                if 'delete' in flask.request.form:
+                        actor = flask.request.form['actor']
+                        actor = actor.split()
+                        if(valifation(actor[0])==0 and valifation(actor[1])==0 and valifation(actor[2])==0):
+
+                                SQLCommand = ("SELECT actorId FROM Actors where name='%s' and family='%s' and nationality='%s'")%(actor[0],actor[1],actor[2])
+                                cursor.execute(SQLCommand)
+                                acid = cursor.fetchall()
+                                connection.commit()
+
+                                SQLCommand = ("DELETE FROM Actors WHERE name='%s' and family='%s' and nationality='%s'")%(actor[0],actor[1],actor[2])
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+
+
+
+
+                        return flask.redirect(flask.url_for('actors'))
+
+
+                else:
+                        pass
+
+class Writers(flask.views.MethodView):
+        def get(self):
+                SQLCommand = ("SELECT name,family,nationality,image FROM Writers")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                writer = []
+                for i in range(len(row)):
+                        x = dict([('Name',row[i][0]),('Family',row[i][1]),('Nation',row[i][2]),('Image',row[i][3])])
+                        writer.append(x)
+                return flask.render_template('writers.html',posts=writer)
+
+
+        def post(self):
+                if 'save' in flask.request.form:
+                        name = flask.request.form['Name']
+                        family = flask.request.form['Family']
+                        nation = flask.request.form['Nation']
+                        f = flask.request.files['file']
+
+                        if (f.filename != ""):
+                                addres = "E:/university/terme_8/Az_database/proje/db/static/img/Writers/" + str(f.filename)
+                                if f and allowed_file(f.filename):
+					                    filename = secure_filename(f.filename)
+
+                                f.save(os.path.join(app.config['UPLOAD_FOLDER']+"/Writers", filename))
+                                f.close()
+
+                        filename = secure_filename(f.filename)
+                        adr = "../static/img/Writers/"+str(filename)
+
+                        if(valifation(name)==0 and valifation(family)==0 and valifation(nation)==0):
+                                SQLCommand = ("INSERT INTO Writers (name,family,nationality,image) VALUES ('%s','%s','%s','%s')") %(name,family,nation,str(adr))
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+                        return flask.redirect(flask.url_for('writers'))
+
+                if 'delete' in flask.request.form:
+                        writer = flask.request.form['writer']
+                        writer = writer.split()
+
+
+                        if(valifation(writer[0])==0 and valifation(writer[1])==0 and valifation(writer[2])==0):
+
+                                SQLCommand = ("SELECT writerId FROM Writers where name='%s' and family='%s' and nationality='%s'")%(writer[0],writer[1],writer[2])
+                                cursor.execute(SQLCommand)
+                                wrid = cursor.fetchall()
+                                connection.commit()
+
+
+                                SQLCommand = ("DELETE FROM Writers WHERE name='%s' and family='%s' and nationality='%s'")%(writer[0],writer[1],writer[2])
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+
+                        return flask.redirect(flask.url_for('writers'))
+
+                else:
+                        pass
+
+
 class Profile(flask.views.MethodView):
         def get(self):
                 username = flask.session['username']
@@ -204,6 +338,7 @@ class Profile(flask.views.MethodView):
                     cursor.execute(SQLCommand)
                     connection.commit()
                     return flask.redirect(flask.url_for('profile'))
+
 
 
 app.add_url_rule('/',
