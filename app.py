@@ -289,12 +289,23 @@ class Writers(flask.views.MethodView):
                                 cursor.execute(SQLCommand)
                                 connection.commit()
 
-
-
                         return flask.redirect(flask.url_for('writers'))
 
                 else:
                         pass
+
+class Directors(flask.views.MethodView):
+        def get(self):
+                SQLCommand = ("SELECT name,family,nationality,image FROM Directors")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                director = []
+                for i in range(len(row)):
+                        x = dict([('Name',row[i][0]),('Family',row[i][1]),('Nation',row[i][2]),('Image',row[i][3])])
+                        director.append(x)
+                return flask.render_template('directors.html',posts=director)
+
 
 
 class Profile(flask.views.MethodView):
