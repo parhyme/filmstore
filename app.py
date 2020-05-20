@@ -329,7 +329,51 @@ class Profile(flask.views.MethodView):
                         users.append(x)
 
                 return flask.render_template('profile.html',posts=users)
+        def post(self):
+                if 'save' in flask.request.form:
+                        name = flask.request.form['Name']
+                        family = flask.request.form['Family']
+                        nation = flask.request.form['Nation']
+                        f = flask.request.files['file']
 
+                        if (f.filename != ""):
+                                addres = "E:/university/terme_8/Az_database/proje/db/static/img/Directors/" + str(f.filename)
+                                if f and allowed_file(f.filename):
+					                    filename = secure_filename(f.filename)
+
+                                f.save(os.path.join(app.config['UPLOAD_FOLDER']+"/Directors", filename))
+                                f.close()
+
+                        filename = secure_filename(f.filename)
+                        adr = "../static/img/Directors/"+str(filename)
+
+                        if(valifation(name)==0 and valifation(family)==0 and valifation(nation)==0):
+                                SQLCommand = ("INSERT INTO Directors (name,family,nationality,image) VALUES ('%s','%s','%s','%s')") %(name,family,nation,str(adr))
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+                        return flask.redirect(flask.url_for('directors'))
+
+                if 'delete' in flask.request.form:
+                        director = flask.request.form['director']
+                        director = director.split()
+                        if(valifation(director[0])==0 and valifation(director[1])==0 and valifation(director[2])==0):
+
+                                SQLCommand = ("SELECT directorId FROM Directors where name='%s' and family='%s' and nationality='%s'")%(director[0],director[1],director[2])
+                                cursor.execute(SQLCommand)
+                                drid = cursor.fetchall()
+                                connection.commit()
+
+                                SQLCommand = ("DELETE FROM Directors WHERE name='%s' and family='%s' and nationality='%s'")%(director[0],director[1],director[2])
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+                        return flask.redirect(flask.url_for('directors'))
+
+                else:
+                        pass
 
         def post(self):
                 if 'save':
