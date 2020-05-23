@@ -546,7 +546,8 @@
   </div>
       </div>
             </div>
-            {% if session['roll']==2 or session['roll']==1  %}
+        <?php   {% if session['roll']==2 or session['roll']==1  %}
+        ?>
 
                 <div class="col-md-4 column">
 				</div>
@@ -629,7 +630,7 @@
                                 <button type="button" class="close" data-dismiss="modal">×</button>
                          </div>
                          <div class="modal-body">
-                              <form  name="loginform2" method="post" action="{{url_for('actors')}}" enctype="multipart/form-data">
+                              <form  name="loginform2" method="post" action="../templates/actors.html" enctype="multipart/form-data">
                                   <div  class="tab-content">
                                         <div class="tab-pane active" id="login_del" name="login">
 
@@ -643,8 +644,8 @@
                                                             <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
                                                             <ul>
                                                                 <?php {% for ac in posts %}  ?>
-                                                                <li><?php {{ac.Name}} ?> <?php {{ac.Family}} ?> <?php {{ac.Nation}} ?></li>
-                                                                {%endfor%}
+                                                                <?php <li>{{ac.Name}} ?>  {{ac.Family}} ?>  {{ac.Nation}} </li> ?>
+                                                               <?php {%endfor%} ?>
 
                                                             </ul>
                                                         </a>
