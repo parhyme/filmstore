@@ -422,7 +422,257 @@
     </script>
 
     </head>
+
+
 <body>
+<!--start-->
+
+
+          <!--start-->
+
+            <div class="box">
+              <ul class="menu">
+                  <li><a href="#"></a></li>
+                  <li><a href="../templates/home.html">Home</a>
+                    <ul>
+                    <!--<li><a href="#">Lorem ipsum dolor</a></li>
+                    <li><a href="#">Maecenas lacinia sem</a></li>
+                    <li><a href="#">Suspendisse fringilla</a></li>-->
+                    </ul>
+                </li>
+
+
+                <li><a href="#">Agent</a>
+                    <ul>
+                    <li><a name="Directors" href="../templates/directors.html">Directors</a></li>
+                    <li><a name="Writers" href="../templates/writers.html">Writers</a></li>
+                    <li><a name="Actors" href="../templates/actors.html">Actors</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#">Stores</a>
+                    <ul>
+                    <li><a name="Stores" href="../templates/stores.html">Stores</a></li>
+                    <li><a name="أNewRequest" href="../templates/request.html">New Request</a></li>
+
+                    <?php {% if session['roll']==2 %} ?>
+                    <li><a name="RequestList" href="../templates/requestlist.html">Request List</a></li>
+                  <?php  {% endif %} ?>
+                    </ul>
+                </li>
+
+
+
+
+
+                <li><a href="#">Film</a>
+                    <ul>
+                    <li><a href="../templates/company.html">Company</a></li>
+                    <li><a href="../templates/category.html">Category</a></li>
+                    <li><a href="../templates/award.html">Award</a></li>
+                    <li><a href="../templates/film.html">Film</a></li>
+<?php
+                    {% if session['roll']==2 or session['roll']==1  %}
+                    ?>
+                    <li><a href="../templates/newfilm.html">New Film</a></li>
+                        <?php
+                     {% endif %}
+?>
+                    </ul>
+                </li>
+
+
+
+                <li><a href="#">Settings</a>
+                    <ul>
+                    <li><a href="../templates/profile.html">Profile</a></li>
+                    <li><a href="../templates/editpassword.html">Edit Password</a></li>
+                    <li><a name="logout" href="../templates/main.html">Logout</a></li>
+                    </ul>
+                </li>
+
+
+              </ul>
+            </div>
+
+
+          <!--end-->
+          <!--start-->
+           <br><br><br><br>
+          <br><br><br><br><br><br>
+
+        <div class="col-md-12 column">
+          <div class="container">
+              <div class="row">
+                <div class="panel panel-primary filterable">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Actors</h3>
+                        <div class="pull-right">
+                            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span>Filter</button>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr class="filters">
+                                <th></th>
+                                <th><input type="text" class="form-control" placeholder="Name" disabled></th>
+                                <th><input type="text" class="form-control" placeholder="Family" disabled></th>
+                                <th><input type="text" class="form-control" placeholder="Nation" disabled></th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for post in posts %}
+                            <tr>
+                                <td><img src={{post.Image}} alt="" width="80px" height="80px" /></td>
+                                <td>{{post.Name}}</td>
+                                <td>{{post.Family}}</td>
+                                <td>{{post.Nation}}</td>
+
+                            </tr>
+                         {%endfor%}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+          <!--end-->
+
+  </div>
+      </div>
+            </div>
+            {% if session['roll']==2 or session['roll']==1  %}
+
+                <div class="col-md-4 column">
+				</div>
+				<div class="col-md-4 column">
+                     <a  class="inputButton" href="#login-modal" role="button" data-toggle="modal" data-target="#login-modal" data-backdrop="static" data-controls-modal="login-modal"  > <center>Add Actor</center>  </a>
+
+                     <a  class="inputButton" href="#login-modal2" role="button" data-toggle="modal" data-target="#login-modal2" data-backdrop="static" data-controls-modal="login-modal2"  > <center>Delete Actor</center>  </a>
+				</div>
+				</div>
+				<div class="col-md-4 column">
+				</div>
+
+
+
+
+
+                <div class="modal fade loginpopup index" id="login-modal"   tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                 <div class="modal-dialog login-form animated">
+                     <div class="modal-content">
+                          <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                         </div>
+                         <div class="modal-body">
+                              <form  name="loginform" method="post" action="../templates/actors.html" enctype="multipart/form-data">
+                                  <div id="my-tab-content" class="tab-content">
+                                        <div class="tab-pane active" id="login" name="login">
+
+                                            <h4><center>Add new Actor!</center></h4>
+                                            <div class="form-group" >
+                                                 <input type="text" id="Name" name="Name" class="form-control" placeholder="Name" required >
+                                                 <span class="has-error" ng-show="loginform.Name.$touched && loginform.rName.$invalid" class="font-ten">
+                                                        <span class="has-error"	ng-show="loginform.Name.$error.required" class="font-ten">Name is required</span>
+                                                 </span>
+                                            </div>
+
+                                            <div class="form-group" >
+                                                 <input type="text" id="Family" name="Family" class="form-control" placeholder="Family" required >
+                                                 <span class="has-error" ng-show="loginform.Family.$touched && loginform.Family.$invalid" class="font-ten">
+                                                        <span class="has-error"	ng-show="loginform.Family.$error.required" class="font-ten">Family is required</span>
+                                                 </span>
+                                            </div>
+
+                                            <div class="form-group" >
+                                                 <input type="text" id="Nation" name="Nation" class="form-control" placeholder="Nation" required >
+                                                 <span class="has-error" ng-show="loginform.Nation.$touched && loginform.Nation.$invalid" class="font-ten">
+                                                        <span class="has-error"	ng-show="loginform.Nation.$error.required" class="font-ten">Nation is required</span>
+                                                 </span>
+                                            </div>
+
+                                            <div class="form-group">
+
+                                              <input type="file" name="file" multiple value="choose image" placeholder="choose image" >
+
+                                            </div>
+
+
+                                            <div class="form-group" >
+                                                <input  name="save" type="submit" value="Save" class="inputButton"/>
+                                                   <!-- <button  name="save" class="inputButton" type="submit" > Save </button>-->
+                                            </div>
+
+                                        </div>
+
+                                     </div>
+
+                              </form>
+                         </div>
+                     </div>
+                </div>
+	 </div>
+
+
+
+
+        <!---->
+          <div class="modal fade loginpopup index" id="login-modal2"   tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                 <div class="modal-dialog login-form animated">
+                     <div class="modal-content">
+                          <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                         </div>
+                         <div class="modal-body">
+                              <form  name="loginform2" method="post" action="{{url_for('actors')}}" enctype="multipart/form-data">
+                                  <div  class="tab-content">
+                                        <div class="tab-pane active" id="login_del" name="login">
+
+                                            <h4><center>Delete Actor!</center></h4>
+
+                                            <div class="col-xs-12 col-sm-12">
+                                                        <h5>Actor</h5>
+                                                        <a class="btn btn-default btn-select btn-select-light">
+                                                            <input type="hidden" class="btn-select-input" id="actor" name="actor" value="actor" />
+                                                            <span class="btn-select-value">Select an Item</span>
+                                                            <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
+                                                            <ul>
+                                                                <?php {% for ac in posts %}  ?>
+                                                                <li><?php {{ac.Name}} ?> <?php {{ac.Family}} ?> <?php {{ac.Nation}} ?></li>
+                                                                {%endfor%}
+
+                                                            </ul>
+                                                        </a>
+                                            </div>
+
+
+
+                                            <div class="form-group" >
+                                                <input  name="delete" type="submit" value="Delete Actor" class="inputButton"/>
+                                                   <!-- <button  name="save" class="inputButton" type="submit" > Save </button>-->
+                                            </div>
+
+                                        </div>
+
+                                     </div>
+
+                              </form>
+                         </div>
+                     </div>
+                </div>
+	 </div>
+
+        <!---->
+
+        <?php  {% endif %} ?>
+
+          <!---->
+
 
 </body>
 </html>
