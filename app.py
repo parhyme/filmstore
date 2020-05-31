@@ -386,6 +386,27 @@ class Stores(flask.views.MethodView):
                                 store.append(x)
 
                 return flask.render_template('stores.html',posts=store)
+        def post(self):
+                username = flask.session['username']
+                SQLCommand = ("SELECT userId FROM Users where userName='%s'")%(username)
+                cursor.execute(SQLCommand)
+                user = cursor.fetchall()
+                connection.commit()
+
+
+                SQLCommand = ("SELECT storeId FROM Stores")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+
+                for i in row:
+                        if str(i[0]) in flask.request.form:
+
+                                SQLCommand = ("INSERT INTO Follows (storeId,userId) VALUES ('%s','%s')") %(i[0],user[0][0])
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+                                return flask.redirect(flask.url_for('home'))
+
+
 
 
 
