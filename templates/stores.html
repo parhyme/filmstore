@@ -157,10 +157,12 @@
 
           <!--start-->
 
+           <!--start-->
+
             <div class="box">
               <ul class="menu">
-                  <li><a href="#"></a></li>
-                  <li><a href="../templates/home.html">Home</a>
+                <li><a href="#"></a></li>
+                <li><a href="../templates/home.html">Home</a>
                     <ul>
                     <!--<li><a href="#">Lorem ipsum dolor</a></li>
                     <li><a href="#">Maecenas lacinia sem</a></li>
@@ -173,7 +175,7 @@
                     <ul>
                     <li><a  href="../templates/directors.html">Directors</a></li>
                     <li><a  href="../templates/writers.html">Writers</a></li>
-                    <li><a  href="../templates/actors.html">Actors</a></li>
+                    <li><a  href="../templates/actors.html">Actors </a></li>
                     </ul>
                 </li>
 
@@ -183,7 +185,7 @@
                     <li><a  href="../templates/request.html">New Request</a></li>
 
                     <?php {% if session['roll']==2 %} ?>
-                    <li><a href="../templates/requestlist.html">Request List</a></li>
+                    <li><a  href="../templates/requestlist.html">Request List</a></li>
                   <?php  {% endif %} ?>
                     </ul>
                 </li>
@@ -225,5 +227,46 @@
 
 
           <!--end-->
+
+
+ <!--start-->
+           <br><br><br><br>
+          <br><br><br><br><br><br><br><br><br><br><br>
+            <div class="container">
+                <div class="row">
+                    <ul class="thumbnails">
+
+                        {% for post in posts %}
+                        <form  name="loginform" method="post" action="../templates/stores.html" enctype="multipart/form-data">
+                        <div class="col-md-4">
+                            <div class="thumbnail">
+                                <img src="../templates/stores.html" alt="ALT NAME" class="img-responsive" />
+                                <div class="caption">
+
+                                    <input  name="{{post.storeId}}" type="submit" value="follow" class="inputButton"/>
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                        {%endfor%}
+
+
+
+                    </ul>
+                </div>
+            </div>
+
+
+          <!--end-->
+
+
+
+          <!---->
+
     </body>
 </html>
