@@ -152,4 +152,78 @@
 
       </style>
     </head>
+
+    <body>
+
+          <!--start-->
+
+            <div class="box">
+              <ul class="menu">
+                  <li><a href="#"></a></li>
+                  <li><a href="../templates/home.html">Home</a>
+                    <ul>
+                    <!--<li><a href="#">Lorem ipsum dolor</a></li>
+                    <li><a href="#">Maecenas lacinia sem</a></li>
+                    <li><a href="#">Suspendisse fringilla</a></li>-->
+                    </ul>
+                </li>
+
+
+                <li><a href="#">Agent</a>
+                    <ul>
+                    <li><a  href="../templates/directors.html">Directors</a></li>
+                    <li><a  href="../templates/writers.html">Writers</a></li>
+                    <li><a  href="../templates/actors.html">Actors</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#">Stores</a>
+                    <ul>
+                    <li><a  href="../templates/stores.html">Stores</a></li>
+                    <li><a  href="../templates/request.html">New Request</a></li>
+
+                    <?php {% if session['roll']==2 %} ?>
+                    <li><a href="../templates/requestlist.html">Request List</a></li>
+                  <?php  {% endif %} ?>
+                    </ul>
+                </li>
+
+
+
+
+
+                <li><a href="#">Film</a>
+                    <ul>
+                    <li><a href="../templates/company.html">Company</a></li>
+                    <li><a href="../templates/category.html">Category</a></li>
+                    <li><a href="../templates/award.html">Award</a></li>
+                    <li><a href="../templates/film.html">Film</a></li>
+<?php
+                    {% if session['roll']==2 or session['roll']==1  %}
+                    ?>
+                    <li><a href="../templates/newfilm.html">New Film</a></li>
+                        <?php
+                     {% endif %}
+?>
+                    </ul>
+                </li>
+
+
+
+                <li><a href="#">Settings</a>
+                    <ul>
+                    <li><a href="../templates/profile.html">Profile</a></li>
+                    <li><a href="../templates/editpassword.html">Edit Password</a></li>
+                    <li><a href="../templates/main.html">Logout</a></li>
+                    </ul>
+                </li>
+
+
+              </ul>
+            </div>
+
+
+
+          <!--end-->
+    </body>
 </html>
