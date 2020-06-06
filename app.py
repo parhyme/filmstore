@@ -406,6 +406,37 @@ class Stores(flask.views.MethodView):
                                 connection.commit()
                                 return flask.redirect(flask.url_for('home'))
 
+class Request(flask.views.MethodView):
+        def get(self):
+                return flask.render_template('request.html')
+
+
+        def post(self):
+                if 'send':
+                        name = flask.request.form['name']
+                        family = flask.request.form['family']
+                        email = flask.request.form['email']
+                        phone = flask.request.form['phone']
+                        resume = flask.request.form['resume']
+                        education = flask.request.form['education']
+                        motivation = flask.request.form['motivation']
+                        storename = flask.request.form['storename']
+                        subject = flask.request.form['subject']
+                        f = flask.request.files['file']
+                        if (f.filename != ""):
+                                addres = "E:/university/terme_8/Az_database/proje/db/static/img/Request/" + str(f.filename)
+                                if f and allowed_file(f.filename):
+					                    filename = secure_filename(f.filename)
+
+                                f.save(os.path.join(app.config['UPLOAD_FOLDER']+"/Request", filename))
+                                f.close()
+
+                        filename = secure_filename(f.filename)
+                        adr = "../static/img/Request/"+str(filename)
+                        SQLCommand = ("INSERT INTO Requests (name,family, email, resume, education, motivation, storeName, subject,storeImage) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')") %(name,family,email,resume,education,motivation,storename,subject,str(adr))
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+                        return flask.redirect(flask.url_for('request'))
 
 
 
