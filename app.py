@@ -440,6 +440,22 @@ class Request(flask.views.MethodView):
 
 
 
+class RequestList(flask.views.MethodView):
+        def get(self):
+                SQLCommand = ("SELECT name,family, email, resume, education, motivation, storeName, subject FROM Requests")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                request = []
+                for i in range(len(row)):
+                        x = dict([('Name',row[i][0]),('Family',row[i][1]),('Email',row[i][2]),('Resume',row[i][3]),('Education',row[i][4]),('Motivation',row[i][5]),('StoreName',row[i][6]),('Subject',row[i][7])])
+                        request.append(x)
+                return flask.render_template('requestlist.html',posts=request)
+
+        def post(self):
+                return flask.redirect(flask.url_for('requestlist'))
+
+
 
 
 class Profile(flask.views.MethodView):
