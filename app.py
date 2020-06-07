@@ -455,7 +455,13 @@ class RequestList(flask.views.MethodView):
         def post(self):
                 return flask.redirect(flask.url_for('requestlist'))
 
+class Index(flask.views.MethodView):
+        def get(self):
+                return flask.render_template('index.html')
 
+
+        def post(self):
+                pass
 
 
 class Profile(flask.views.MethodView):
