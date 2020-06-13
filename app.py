@@ -464,6 +464,7 @@ class Index(flask.views.MethodView):
                 pass
 
 
+
 class Profile(flask.views.MethodView):
         def get(self):
                 username = flask.session['username']
@@ -511,44 +512,30 @@ class Profile(flask.views.MethodView):
 
                         return flask.redirect(flask.url_for('directors'))
 
-                if 'delete' in flask.request.form:
-                        director = flask.request.form['director']
-                        director = director.split()
-                        if(valifation(director[0])==0 and valifation(director[1])==0 and valifation(director[2])==0):
+class Editpassword(flask.views.MethodView):
+        def get(self):
 
-                                SQLCommand = ("SELECT directorId FROM Directors where name='%s' and family='%s' and nationality='%s'")%(director[0],director[1],director[2])
-                                cursor.execute(SQLCommand)
-                                drid = cursor.fetchall()
-                                connection.commit()
+                return flask.render_template('editpassword.html')
 
-                                SQLCommand = ("DELETE FROM Directors WHERE name='%s' and family='%s' and nationality='%s'")%(director[0],director[1],director[2])
-                                cursor.execute(SQLCommand)
-                                connection.commit()
-
-
-                        return flask.redirect(flask.url_for('directors'))
-
-                else:
-                        pass
 
         def post(self):
                 if 'save':
-                    f = flask.request.files['file']
-                    if (f.filename != ""):
-                            addres = "E:/university/terme_8/Az_database/proje/db/static/img/Users/" + str(f.filename)
-                            if f and allowed_file(f.filename):
-                                    filename = secure_filename(f.filename)
+                        username = flask.session['username']
+                        SQLCommand = ("SELECT password FROM Users where userName='%s'")%(username)
+                        cursor.execute(SQLCommand)
+                        row = cursor.fetchall()
+                        connection.commit()
 
-                            f.save(os.path.join(app.config['UPLOAD_FOLDER']+"/Users", filename))
-                            f.close()
+                        password = flask.request.form['password']
+                        Npassword = flask.request.form['Npassword']
+                        Cpassword = flask.request.form['Cpassword']
 
-                    username = flask.session['username']
-                    filename = secure_filename(f.filename)
-                    adr = "../static/img/Users/"+str(filename)
-                    SQLCommand = ("UPDATE Users SET image = '%s' where userName ='%s' ")%(adr,username)
-                    cursor.execute(SQLCommand)
-                    connection.commit()
-                    return flask.redirect(flask.url_for('profile'))
+                        if row[0][0]==password and Npassword==Cpassword:
+                                SQLCommand = ("UPDATE Users SET password = '%s' where userName ='%s' ")%(Npassword,username)
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+                                return flask.redirect(flask.url_for('home'))
+
 
 
 
