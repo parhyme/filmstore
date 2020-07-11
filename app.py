@@ -536,7 +536,57 @@ class Editpassword(flask.views.MethodView):
                                 connection.commit()
                                 return flask.redirect(flask.url_for('home'))
 
+class Company(flask.views.MethodView):
+        def get(self):
+                SQLCommand = ("SELECT companyName,nationality FROM Companies")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                company = []
+                for i in range(len(row)):
+                        x = dict([('Name',row[i][0]),('Nation',row[i][1])])
+                        company.append(x)
 
+                return flask.render_template('company.html',posts=company)
+
+
+        def post(self):
+                if 'save' in flask.request.form:
+                        name = flask.request.form['Name']
+                        nation = flask.request.form['Nation']
+
+                        if (valifation(name)==0 and valifation(nation)==0):
+                                SQLCommand = ("INSERT INTO Companies (companyName,nationality) VALUES ('%s','%s')") %(name,nation)
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+                                return flask.redirect(flask.url_for('company'))
+
+
+                if 'delete' in flask.request.form:
+                        company = flask.request.form['company']
+                        company = company.split()
+
+                        if(valifation(company[0])==0):
+
+                                SQLCommand = ("SELECT companyId FROM Companies where companyName='%s' and nationality='%s'")%(company[0],company[1])
+                                cursor.execute(SQLCommand)
+                                coid = cursor.fetchall()
+                                connection.commit()
+
+                                SQLCommand = ("DELETE FROM Companies WHERE companyName='%s' and nationality='%s'")%(company[0],company[1])
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+
+
+                        return flask.redirect(flask.url_for('company'))
+
+
+                else:
+                        pass
 
 
 app.add_url_rule('/',
