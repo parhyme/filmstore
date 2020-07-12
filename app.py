@@ -588,6 +588,56 @@ class Company(flask.views.MethodView):
                 else:
                         pass
 
+class Category(flask.views.MethodView):
+        def get(self):
+                SQLCommand = ("SELECT categoryName FROM Categories")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                category = []
+                for i in range(len(row)):
+                        x = dict([('Name',row[i][0])])
+                        category.append(x)
+                return flask.render_template('category.html',posts=category)
+
+
+        def post(self):
+                if 'save' in flask.request.form:
+                        name = flask.request.form['Name']
+
+                        if(valifation(name)==0):
+                                SQLCommand = ("INSERT INTO Categories (categoryName) VALUES ('%s')") %(name)
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+                        return flask.redirect(flask.url_for('category'))
+
+                if 'delete' in flask.request.form:
+                        category = flask.request.form['category']
+
+                        if(valifation(category)==0):
+
+                                SQLCommand = ("SELECT categoryId FROM categories where categoryName='%s'")%(category)
+                                cursor.execute(SQLCommand)
+                                caid = cursor.fetchall()
+                                connection.commit()
+
+                                SQLCommand = ("DELETE FROM categories WHERE categoryName='%s'")%(category)
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+
+
+
+
+
+                        return flask.redirect(flask.url_for('category'))
+
+                else:
+                        pass
+
 
 app.add_url_rule('/',
     view_func = Main.as_view('main'),
