@@ -638,6 +638,55 @@ class Category(flask.views.MethodView):
                 else:
                         pass
 
+class Award(flask.views.MethodView):
+        def get(self):
+                SQLCommand = ("SELECT awardName,awardDate FROM Awards")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                award = []
+                for i in range(len(row)):
+                        x = dict([('Name',row[i][0]),('Date',row[i][1])])
+                        award.append(x)
+                return flask.render_template('award.html',posts=award)
+
+
+        def post(self):
+                if 'save' in flask.request.form:
+                        name = flask.request.form['Name']
+                        date = flask.request.form['Date']
+
+                        if(valifation(name)==0):
+                                SQLCommand = ("INSERT INTO Awards (awardName,awardDate) VALUES ('%s','%s')") %(name,date)
+                                cursor.execute(SQLCommand)
+                                connection.commit()
+
+
+                                return flask.redirect(flask.url_for('award'))
+
+                if 'delete' in flask.request.form:
+                        award = flask.request.form['award']
+                        award = award.split()
+
+
+
+                        SQLCommand = ("SELECT awardId FROM Awards where awardName='%s' and awardDate='%s'")%(award[0],award[1])
+                        cursor.execute(SQLCommand)
+                        awid = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("DELETE FROM Awards WHERE awardName='%s' and awardDate='%s'")%(award[0],award[1])
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+
+
+
+
+                        return flask.redirect(flask.url_for('award'))
+
+                else:
+                        pass
+
 
 app.add_url_rule('/',
     view_func = Main.as_view('main'),
