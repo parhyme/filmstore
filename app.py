@@ -687,6 +687,35 @@ class Award(flask.views.MethodView):
                 else:
                         pass
 
+class Film(flask.views.MethodView):
+        def get(self):
+                SQLCommand = ("SELECT name,summary,productYear,image FROM Films")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                film = []
+
+                for i in range(len(row)):
+
+                        x = dict([('Name',row[i][0]),('Summary',row[i][1]),('ProductYear',row[i][2]),('image',row[i][3])])
+                        film.append(x)
+                return flask.render_template('film.html',posts=film)
+
+
+        def post(self):
+                if 'delete' in flask.request.form:
+                        film = flask.request.form['film']
+
+
+                        SQLCommand = ("SELECT filmId FROM Films where name='%s'")%(film)
+                        cursor.execute(SQLCommand)
+                        awid = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("DELETE FROM Films WHERE name='%s'")%(film)
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+                        return flask.redirect(flask.url_for('film'))
 
 app.add_url_rule('/',
     view_func = Main.as_view('main'),
