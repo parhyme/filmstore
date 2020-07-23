@@ -717,6 +717,74 @@ class Film(flask.views.MethodView):
                         connection.commit()
                         return flask.redirect(flask.url_for('film'))
 
+
+class Newfilm(flask.views.MethodView):
+        def get(self):
+                SQLCommand = ("SELECT name,family FROM Actors")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                actor = []
+                for i in range(len(row)):
+                        x = dict([('actorName',row[i][0]),('actorFamily',row[i][1])])
+                        actor.append(x)
+
+
+                SQLCommand = ("SELECT name,family FROM Directors")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                director = []
+                for i in range(len(row)):
+                        x = dict([('directorName',row[i][0]),('directorFamily',row[i][1])])
+                        director.append(x)
+
+
+                SQLCommand = ("SELECT name,family FROM Writers")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                writer = []
+                for i in range(len(row)):
+                        x = dict([('writerName',row[i][0]),('writerFamily',row[i][1])])
+                        writer.append(x)
+
+
+                SQLCommand = ("SELECT companyName FROM Companies")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                company = []
+                for i in range(len(row)):
+                        x = dict([('companyName',row[i][0])])
+                        company.append(x)
+
+
+                SQLCommand = ("SELECT awardName,awardDate FROM Awards")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                award = []
+                for i in range(len(row)):
+                        x = dict([('Name',row[i][0]),('Date',row[i][1])])
+                        award.append(x)
+
+
+                SQLCommand = ("SELECT categoryName FROM Categories")
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
+                category = []
+                for i in range(len(row)):
+                        x = dict([('Name',row[i][0])])
+                        category.append(x)
+
+
+
+
+                return flask.render_template('newfilm.html',actors=actor,directors=director,writers=writer,awards=award,categories=category,companies=company)
+
+
 app.add_url_rule('/',
     view_func = Main.as_view('main'),
     methods = ["GET","POST"])
