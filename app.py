@@ -2,24 +2,25 @@ import flask ,flask.views
 from flask import *
 import os
 from pyodbc import *
+from werkzeug import secure_filename
 
 
 app = flask.Flask(__name__)
 app.config.from_object(__name__)
-app.secret_key = "prhm"
-users = {'prhm':'abp'}
+app.secret_key = "uknof"
+users = {'prh':'bcw'}
 
 DEBUG = True
 
-app.config['UPLOAD_FOLDER'] = 'C:/Users/Parham/Documents/Dev/Film_store/statics/img'
+app.config['UPLOAD_FOLDER'] = 'E:/projects'
 app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 #SQLSERVER configurations
-# connection = connect(Driver='{SQL Server}',
-#                                 Server='PARHAM\',
-#                                 Database='azdb',
-#                                 uid='sa',pwd='1234')
-# cursor = connection.cursor()
+connection = connect(Driver='{SQL Server}',
+                                Server='PARHAM\NEWSQLEXPRESS',
+                                Database='sw',
+                                uid='sa',pwd='1234')
+cursor = connection.cursor()
 
 
 #------------------------------- function -------------------------------------
@@ -77,7 +78,7 @@ class Main(flask.views.MethodView):
                         flask.session['username'] = Uname
 
                         if passwd==c_passwd and len(Uname)==8 and len(passwd)>=6:
-                                # SQLCommand = ("INSERT INTO Users (userName,password,email,roll) VALUES ('%s','%s','%s', '%s')") %(Uname,passwd,email,'0')
+                                SQLCommand = ("INSERT INTO Users (userName,password,email,roll) VALUES ('%s','%s','%s', '%s')") %(Uname,passwd,email,'0')
 
 
                                 cursor.execute(SQLCommand)
@@ -88,50 +89,56 @@ class Main(flask.views.MethodView):
 
                                 return flask.redirect(flask.url_for('main'))
 
+
+
+
+
+#------------------------------- Home -------------------------------------
+
 class Home(flask.views.MethodView):
         def get(self):
-                # username = flask.session['username']
-                # SQLCommand = ("SELECT roll,userId FROM Users where userName='%s'")%(username)
-                # cursor.execute(SQLCommand)
-                # row = cursor.fetchall()
-                # connection.commit()
+                username = flask.session['username']
+                SQLCommand = ("SELECT roll,userId FROM Users where userName='%s'")%(username)
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
 
-                # flask.session['roll'] = row[0][0]
+                flask.session['roll'] = row[0][0]
 
 
-                # SQLCommand = ("spDisplayHomePageBASedONFollow '%s',3")%(row[0][1])
-                # cursor.execute(SQLCommand)
-                # row = cursor.fetchall()
-                # connection.commit()
+                SQLCommand = ("spDisplayHomePageBASedONFollow '%s',3")%(row[0][1])
+                cursor.execute(SQLCommand)
+                row = cursor.fetchall()
+                connection.commit()
 
                 result = []
 
                 for i in range(len(row)):
                     a=[]
 
-                #     SQLCommand = ("SELECT name , family FROM Writers where writerId='%s'")%(row[i][1])
-                #     cursor.execute(SQLCommand)
-                #     wr = cursor.fetchall()
-                #     connection.commit()
+                    SQLCommand = ("SELECT name , family FROM Writers where writerId='%s'")%(row[i][1])
+                    cursor.execute(SQLCommand)
+                    wr = cursor.fetchall()
+                    connection.commit()
 
 
 
-                #     SQLCommand = ("SELECT name , family FROM Directors where directorId='%s'")%(row[i][2])
-                #     cursor.execute(SQLCommand)
-                #     dr = cursor.fetchall()
-                #     connection.commit()
+                    SQLCommand = ("SELECT name , family FROM Directors where directorId='%s'")%(row[i][2])
+                    cursor.execute(SQLCommand)
+                    dr = cursor.fetchall()
+                    connection.commit()
 
 
-                #     SQLCommand = ("SELECT companyName from Companies where companyId='%s'")%(row[i][3])
-                #     cursor.execute(SQLCommand)
-                #     co = cursor.fetchall()
-                #     connection.commit()
+                    SQLCommand = ("SELECT companyName from Companies where companyId='%s'")%(row[i][3])
+                    cursor.execute(SQLCommand)
+                    co = cursor.fetchall()
+                    connection.commit()
 
 
-                #     SQLCommand = ("SELECT categoryName from Categories where categoryId='%s'")%(row[i][4])
-                #     cursor.execute(SQLCommand)
-                #     ca = cursor.fetchall()
-                #     connection.commit()
+                    SQLCommand = ("SELECT categoryName from Categories where categoryId='%s'")%(row[i][4])
+                    cursor.execute(SQLCommand)
+                    ca = cursor.fetchall()
+                    connection.commit()
 
 
                     a.append(wr[0][0])
@@ -162,6 +169,9 @@ class Home(flask.views.MethodView):
                 if 'logout':
                         flask.session.pop('username',None)
                         return flask.redirect(flask.url_for('main'))
+
+
+#------------------------------- Actors -------------------------------------
 
 class Actors(flask.views.MethodView):
         def get(self):
@@ -233,6 +243,9 @@ class Actors(flask.views.MethodView):
                 else:
                         pass
 
+
+#------------------------------- Writers -------------------------------------
+
 class Writers(flask.views.MethodView):
         def get(self):
                 SQLCommand = ("SELECT name,family,nationality,image FROM Writers")
@@ -289,10 +302,14 @@ class Writers(flask.views.MethodView):
                                 cursor.execute(SQLCommand)
                                 connection.commit()
 
+
+
                         return flask.redirect(flask.url_for('writers'))
 
                 else:
                         pass
+
+#------------------------------- Directors -------------------------------------
 
 class Directors(flask.views.MethodView):
         def get(self):
@@ -305,6 +322,8 @@ class Directors(flask.views.MethodView):
                         x = dict([('Name',row[i][0]),('Family',row[i][1]),('Nation',row[i][2]),('Image',row[i][3])])
                         director.append(x)
                 return flask.render_template('directors.html',posts=director)
+
+
         def post(self):
                 if 'save' in flask.request.form:
                         name = flask.request.form['Name']
@@ -351,6 +370,8 @@ class Directors(flask.views.MethodView):
                 else:
                         pass
 
+
+
 #------------------------------- Stores -------------------------------------
 
 class Stores(flask.views.MethodView):
@@ -385,7 +406,14 @@ class Stores(flask.views.MethodView):
                                 x = dict([('storeId',row[i][0]),('StoreName',row[i][1]),('StoreImage',row[i][2]),('status',0)])
                                 store.append(x)
 
+
+
+
+
+
                 return flask.render_template('stores.html',posts=store)
+
+
         def post(self):
                 username = flask.session['username']
                 SQLCommand = ("SELECT userId FROM Users where userName='%s'")%(username)
@@ -405,6 +433,10 @@ class Stores(flask.views.MethodView):
                                 cursor.execute(SQLCommand)
                                 connection.commit()
                                 return flask.redirect(flask.url_for('home'))
+
+
+
+#------------------------------- Request -------------------------------------
 
 class Request(flask.views.MethodView):
         def get(self):
@@ -439,6 +471,7 @@ class Request(flask.views.MethodView):
                         return flask.redirect(flask.url_for('request'))
 
 
+#------------------------------- Request list -------------------------------------
 
 class RequestList(flask.views.MethodView):
         def get(self):
@@ -455,6 +488,10 @@ class RequestList(flask.views.MethodView):
         def post(self):
                 return flask.redirect(flask.url_for('requestlist'))
 
+
+
+#------------------------------- Index -------------------------------------
+
 class Index(flask.views.MethodView):
         def get(self):
                 return flask.render_template('index.html')
@@ -463,7 +500,7 @@ class Index(flask.views.MethodView):
         def post(self):
                 pass
 
-
+#------------------------------- Profile -------------------------------------
 
 class Profile(flask.views.MethodView):
         def get(self):
@@ -482,35 +519,32 @@ class Profile(flask.views.MethodView):
                         else:
                                 roll = "Admin"
 
-                        x = dict([('username',username),('email',row[i][0]),('role',roll),('image',row[i][2])])
+                        x = dict([('username',username),('email',row[i][0]),('roll',roll),('image',row[i][2])])
                         users.append(x)
 
                 return flask.render_template('profile.html',posts=users)
+
+
         def post(self):
-                if 'save' in flask.request.form:
-                        name = flask.request.form['Name']
-                        family = flask.request.form['Family']
-                        nation = flask.request.form['Nation']
-                        f = flask.request.files['file']
+                if 'save':
+                    f = flask.request.files['file']
+                    if (f.filename != ""):
+                            addres = "E:/university/terme_8/Az_database/proje/db/static/img/Users/" + str(f.filename)
+                            if f and allowed_file(f.filename):
+                                    filename = secure_filename(f.filename)
 
-                        if (f.filename != ""):
-                                addres = "E:/university/terme_8/Az_database/proje/db/static/img/Directors/" + str(f.filename)
-                                if f and allowed_file(f.filename):
-					                    filename = secure_filename(f.filename)
+                            f.save(os.path.join(app.config['UPLOAD_FOLDER']+"/Users", filename))
+                            f.close()
 
-                                f.save(os.path.join(app.config['UPLOAD_FOLDER']+"/Directors", filename))
-                                f.close()
+                    username = flask.session['username']
+                    filename = secure_filename(f.filename)
+                    adr = "../static/img/Users/"+str(filename)
+                    SQLCommand = ("UPDATE Users SET image = '%s' where userName ='%s' ")%(adr,username)
+                    cursor.execute(SQLCommand)
+                    connection.commit()
+                    return flask.redirect(flask.url_for('profile'))
 
-                        filename = secure_filename(f.filename)
-                        adr = "../static/img/Directors/"+str(filename)
-
-                        if(valifation(name)==0 and valifation(family)==0 and valifation(nation)==0):
-                                SQLCommand = ("INSERT INTO Directors (name,family,nationality,image) VALUES ('%s','%s','%s','%s')") %(name,family,nation,str(adr))
-                                cursor.execute(SQLCommand)
-                                connection.commit()
-
-
-                        return flask.redirect(flask.url_for('directors'))
+#------------------------------- Edirpassword -------------------------------------
 
 class Editpassword(flask.views.MethodView):
         def get(self):
@@ -535,6 +569,9 @@ class Editpassword(flask.views.MethodView):
                                 cursor.execute(SQLCommand)
                                 connection.commit()
                                 return flask.redirect(flask.url_for('home'))
+
+
+#------------------------------- Company -------------------------------------
 
 class Company(flask.views.MethodView):
         def get(self):
@@ -588,6 +625,9 @@ class Company(flask.views.MethodView):
                 else:
                         pass
 
+
+#------------------------------- Category -------------------------------------
+
 class Category(flask.views.MethodView):
         def get(self):
                 SQLCommand = ("SELECT categoryName FROM Categories")
@@ -638,6 +678,8 @@ class Category(flask.views.MethodView):
                 else:
                         pass
 
+#------------------------------- Award -------------------------------------
+
 class Award(flask.views.MethodView):
         def get(self):
                 SQLCommand = ("SELECT awardName,awardDate FROM Awards")
@@ -687,6 +729,8 @@ class Award(flask.views.MethodView):
                 else:
                         pass
 
+#------------------------------- Film -------------------------------------
+
 class Film(flask.views.MethodView):
         def get(self):
                 SQLCommand = ("SELECT name,summary,productYear,image FROM Films")
@@ -717,6 +761,9 @@ class Film(flask.views.MethodView):
                         connection.commit()
                         return flask.redirect(flask.url_for('film'))
 
+
+
+#------------------------------- Newfilm -------------------------------------
 
 class Newfilm(flask.views.MethodView):
         def get(self):
@@ -785,6 +832,148 @@ class Newfilm(flask.views.MethodView):
                 return flask.render_template('newfilm.html',actors=actor,directors=director,writers=writer,awards=award,categories=category,companies=company)
 
 
+        def post(self):
+                if 'send':
+                        name = flask.request.form['name']
+                        summary = flask.request.form['summary']
+                        #productyear = flask.request.form['productyear']
+
+                        director = flask.request.form['director']
+                        director = director.split()
+
+                        writer = flask.request.form['writer']
+                        writer = writer.split()
+
+                        actor1 = flask.request.form['actor1']
+                        actor1 = actor1.split()
+
+                        actor2 = flask.request.form['actor2']
+                        actor2 = actor2.split()
+
+                        actor3 = flask.request.form['actor3']
+                        actor3 = actor3.split()
+
+                        actor4 = flask.request.form['actor4']
+                        actor4 = actor4.split()
+
+                        actor5 = flask.request.form['actor5']
+                        actor5 = actor5.split()
+
+                        company = flask.request.form['company']
+                        category = flask.request.form['category']
+
+                        award = flask.request.form['award']
+                        award = award.split()
+
+
+
+                        f = flask.request.files['file']
+                        if (f.filename != ""):
+                                addres = "E:/university/terme_8/Az_database/proje/db/static/img/Films/" + str(f.filename)
+                                if f and allowed_file(f.filename):
+                                        filename = secure_filename(f.filename)
+
+                                f.save(os.path.join(app.config['UPLOAD_FOLDER']+"/Films", filename))
+                                f.close()
+
+                        filename = secure_filename(f.filename)
+                        adr = "../static/img/Films/"+str(filename)
+
+
+                        SQLCommand = ("SELECT writerId FROM Writers where name='%s' and family='%s'")%(writer[0],writer[1])
+                        cursor.execute(SQLCommand)
+                        wr = cursor.fetchall()
+                        connection.commit()
+
+
+                        SQLCommand = ("SELECT directorId FROM Directors where name='%s' and family='%s'")%(director[0],director[1])
+                        cursor.execute(SQLCommand)
+                        dr = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("SELECT actorId FROM Actors where name='%s' and family='%s'")%(actor1[0],actor1[1])
+                        cursor.execute(SQLCommand)
+                        ac1 = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("SELECT actorId FROM Actors where name='%s' and family='%s'")%(actor2[0],actor2[1])
+                        cursor.execute(SQLCommand)
+                        ac2 = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("SELECT actorId FROM Actors where name='%s' and family='%s'")%(actor3[0],actor3[1])
+                        cursor.execute(SQLCommand)
+                        ac3 = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("SELECT actorId FROM Actors where name='%s' and family='%s'")%(actor4[0],actor4[1])
+                        cursor.execute(SQLCommand)
+                        ac4 = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("SELECT actorId FROM Actors where name='%s' and family='%s'")%(actor5[0],actor5[1])
+                        cursor.execute(SQLCommand)
+                        ac5 = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("SELECT categoryId FROM categories where categoryName='%s'")%(category)
+                        cursor.execute(SQLCommand)
+                        cat = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("SELECT companyId FROM companies where companyName='%s'")%(company)
+                        cursor.execute(SQLCommand)
+                        com = cursor.fetchall()
+                        connection.commit()
+
+
+
+                        SQLCommand = ("SELECT awardId FROM Awards where awardName='%s' and awardDate='%s' ")%(award[0],str(award[1]))
+                        cursor.execute(SQLCommand)
+                        awa = cursor.fetchall()
+                        connection.commit()
+
+
+
+                        SQLCommand = ("INSERT INTO Films (writerId,directorId,companyId,categoryId,name,summary,productYear,image) VALUES('%s','%s','%s','%s','%s','%s','%s','%s')")%(wr[0][0],dr[0][0],com[0][0],cat[0][0],name,summary,"2016",str(adr))
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+
+                        SQLCommand = ("SELECT filmId FROM Films where name='%s'")%(name)
+                        cursor.execute(SQLCommand)
+                        fi = cursor.fetchall()
+                        connection.commit()
+
+                        SQLCommand = ("INSERT INTO FilmActors (filmId,actorId) VALUES('%s','%s')")%(fi[0][0],ac1[0][0])
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+
+                        SQLCommand = ("INSERT INTO FilmActors (filmId,actorId) VALUES('%s','%s')")%(fi[0][0],ac2[0][0])
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+
+                        SQLCommand = ("INSERT INTO FilmActors (filmId,actorId) VALUES('%s','%s')")%(fi[0][0],ac3[0][0])
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+
+                        SQLCommand = ("INSERT INTO FilmActors (filmId,actorId) VALUES('%s','%s')")%(fi[0][0],ac4[0][0])
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+
+                        SQLCommand = ("INSERT INTO FilmActors (filmId,actorId) VALUES('%s','%s')")%(fi[0][0],ac5[0][0])
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+
+                        SQLCommand = ("INSERT INTO AwardFilm (filmId,awardId) VALUES('%s','%s')")%(fi[0][0],awa[0][0])
+                        cursor.execute(SQLCommand)
+                        connection.commit()
+
+                        return flask.redirect(flask.url_for('films'))
+
+
+
+
+
 app.add_url_rule('/',
     view_func = Main.as_view('main'),
     methods = ["GET","POST"])
@@ -793,5 +982,66 @@ app.add_url_rule('/home/',
     view_func = Home.as_view('home'),
     methods = ["GET","POST"])
 
+app.add_url_rule('/home/actors',
+    view_func = Actors.as_view('actors'),
+    methods = ["GET","POST"])
+
+app.add_url_rule('/home/writers',
+    view_func = Writers.as_view('writers'),
+    methods = ["GET","POST"])
+
+
+app.add_url_rule('/home/directors',
+    view_func = Directors.as_view('directors'),
+    methods = ["GET","POST"])
+
+
+app.add_url_rule('/home/stores',
+    view_func = Stores.as_view('stores'),
+    methods = ["GET","POST"])
+
+app.add_url_rule('/home/request',
+    view_func = Request.as_view('request'),
+    methods = ["GET","POST"])
+
+app.add_url_rule('/home/requestlist',
+    view_func = RequestList.as_view('requestlist'),
+    methods = ["GET","POST"])
+
+app.add_url_rule('/home/profile',
+    view_func = Profile.as_view('profile'),
+    methods = ["GET","POST"])
+
+
+app.add_url_rule('/home/editpassword',
+    view_func = Editpassword.as_view('editpassword'),
+    methods = ["GET","POST"])
+
+app.add_url_rule('/home/company',
+    view_func = Company.as_view('company'),
+    methods = ["GET","POST"])
+
+app.add_url_rule('/home/category',
+    view_func = Category.as_view('category'),
+    methods = ["GET","POST"])
+
+app.add_url_rule('/home/award',
+    view_func = Award.as_view('award'),
+    methods = ["GET","POST"])
+
+app.add_url_rule('/home/film',
+    view_func = Film.as_view('film'),
+    methods = ["GET","POST"])
+
+
+app.add_url_rule('/home/newfilm',
+    view_func = Newfilm.as_view('newfilm'),
+    methods = ["GET","POST"])
+
+app.add_url_rule('/index/',
+    view_func = Index.as_view('index'),
+    methods = ["GET","POST"])
+
 app.debug = True
 app.run()
+
